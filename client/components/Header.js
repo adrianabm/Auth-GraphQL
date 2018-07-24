@@ -5,6 +5,7 @@ import CurrentUser from '../queries/CurrentUser'
 
 class Header extends Component {
   render() {
+    console.log(this.props)
     return <div>Header</div>
   }
 }
