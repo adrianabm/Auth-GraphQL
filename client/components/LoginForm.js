@@ -7,18 +7,34 @@ import LoginMutation from '../mutations/Login'
 import CurrentUser from '../queries/CurrentUser'
 
 class LoginForm extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      errors: []
+    }
+  }
+
   onSubmit({ email, password }) {
-    this.props.mutate({
-      variables: { email, password },
-      refetchQueries: [{ query: CurrentUser }]
-    })
+    this.props
+      .mutate({
+        variables: { email, password },
+        refetchQueries: [{ query: CurrentUser }]
+      })
+      .catch(res => {
+        const errors = res.graphQLErrors.map(error => error.message)
+        this.setState({ errors })
+      })
   }
 
   render() {
     return (
       <div>
         <h4>Login</h4>
-        <AuthForm onSubmit={this.onSubmit.bind(this)} />
+        <AuthForm
+          errors={this.state.errors}
+          onSubmit={this.onSubmit.bind(this)}
+        />
       </div>
     )
   }
