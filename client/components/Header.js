@@ -53,4 +53,4 @@ class Header extends Component {
   }
 }
 
-export default graphql(Logout)(graphql(CurrentUser)(Header))
+export default graphql(LogoutMutation)(graphql(CurrentUser)(Header))
