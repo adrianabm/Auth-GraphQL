@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { graphql } from 'react-apollo'
+import { hashHistory } from 'react-router'
 
 import AuthForm from './AuthForm'
 
@@ -12,6 +13,14 @@ class LoginForm extends Component {
 
     this.state = {
       errors: []
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!this.props.data.currentUser && nextProps.data.currentUser) {
+      // user was not signed in, but now is.
+      // redirect to dashboard
+      hashHistory.push('/dashboard')
     }
   }
 
@@ -40,4 +49,4 @@ class LoginForm extends Component {
   }
 }
 
-export default graphql(LoginMutation)(LoginForm)
+export default graphql(CurrentUser)(graphql(LoginMutation)(LoginForm))
